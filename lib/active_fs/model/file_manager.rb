@@ -1,13 +1,16 @@
 require 'fileutils'
 require 'csv'
 
+require 'active_fs/counter'
+
 module ActiveFS
   module Model
     module FileManager
       BUCKET_SIZE = 10_000
+      AUTO_INCREMENT = 'AUTO_INCREMENT'
 
       def self.create(directory, attributes)
-        attributes[:id] = AutoIncrementer.increment(directory)
+        attributes[:id] = Counter.increment(directory, AUTO_INCREMENT)
         update(directory, attributes[:id], attributes)
       end
 

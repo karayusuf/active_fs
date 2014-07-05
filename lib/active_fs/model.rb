@@ -2,7 +2,6 @@ require 'csv'
 require 'json'
 require 'fileutils'
 
-require 'active_fs/auto_incrementer'
 require 'active_fs/model/attributes'
 require 'active_fs/model/file_manager'
 

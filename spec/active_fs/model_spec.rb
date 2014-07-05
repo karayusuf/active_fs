@@ -107,16 +107,19 @@ module ActiveFS
         end
 
         it "benchmark" do
+          pending
           require 'benchmark'
           require 'pry'
 
-          bm = Benchmark.measure do
-            100_000.times do |x|
-             Foo.new.save
+          bm = Benchmark.bm do |x|
+            x.report(:save) do
+              100_000.times { |x| Foo.new.save }
+            end
+
+            x.report(:find) do
+              100_000.times { |x| Foo.find(x + 1) }
             end
           end
-
-          binding.pry
         end
       end
     end
