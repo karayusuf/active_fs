@@ -15,8 +15,12 @@ module ActiveFS
       end
 
       def self.update(directory, id, attributes)
-        FileUtils.mkdir_p(bucket(directory, id))
-        File.write(path(directory, id), JSON(attributes.to_h))
+        begin
+          File.write(path(directory, id), JSON(attributes.to_h))
+        rescue Errno::ENOENT
+          FileUtils.mkdir_p(bucket(directory, id))
+          File.write(path(directory, id), JSON(attributes.to_h))
+        end
       end
 
       def self.find(model, directory, id)
